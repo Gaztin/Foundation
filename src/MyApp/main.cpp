@@ -21,4 +21,13 @@ int WINAPI WinMain( HINSTANCE /*instance*/, HINSTANCE /*prev_instance*/, LPSTR /
 	return main( __argc, __argv );
 }
 
-#endif // _WIN32
+#elif defined( __ANDROID__ ) // _WIN32
+
+#include <android/native_activity.h>
+
+extern "C" void ANativeActivity_onCreate( ANativeActivity* /*activity*/, void* /*saved_state*/, size_t /*saved_state_size*/ )
+{
+	main( 0, nullptr );
+}
+
+#endif // __ANDROID__

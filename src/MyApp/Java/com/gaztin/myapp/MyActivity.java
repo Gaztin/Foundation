@@ -1,10 +1,10 @@
 
 package com.gaztin.myapp;
 
-import android.app.Activity;
+import android.app.NativeActivity;
 import android.os.Bundle;
 
-class MyActivity extends Activity
+public class MyActivity extends NativeActivity
 {
 	@Override
 	protected void onCreate( Bundle savedInstanceState )

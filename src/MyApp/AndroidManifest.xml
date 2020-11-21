@@ -11,7 +11,7 @@
         android:theme="@android:style/Theme.DeviceDefault">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".MyActivity"
             android:label="MyApp"
             android:configChanges="orientation|screenSize|screenLayout"
             android:screenOrientation="sensor"
