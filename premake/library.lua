@@ -1,18 +1,26 @@
 
+require 'base_project'
+
 libraries = { }
 
 function library( name )
 	group 'Libraries'
-	project( name )
-
-	appid '%{settings.bundle_namespace}.libs.%{string.lower(prj.name)}'
+	base_project( name )
 	kind 'StaticLib'
+
 	links( libraries )
-	location 'build/%{_ACTION}'
 
 	files {
-		'src/%{prj.name}/**.cpp',
-		'src/%{prj.name}/**.h',
+		-- C/C++ headers
+		'include/%{prj.name}/**.h',
+		'include/%{prj.name}/**.hh',
+		'include/%{prj.name}/**.hpp',
+		'include/%{prj.name}/**.hxx',
+	}
+
+	vpaths {
+		[ 'Header Files' ] = 'include/**',
+		[ 'Source Files' ] = 'src/**',
 	}
 
 	filter 'system:macosx or ios'

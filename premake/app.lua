@@ -1,31 +1,21 @@
 
+local p = premake
+
+require 'base_project'
 require 'library'
-require 'settings'
 require 'third_party_library'
 
 apps = { }
 
 function app( name )
 	group 'Apps'
-	project( name )
-
-	androidmanifest 'src/%{prj.name}/AndroidManifest.xml'
-	appid '%{settings.bundle_namespace}.%{string.lower(prj.name)}'
-	assetdirs { 'src/%{prj.name}/Assets' }
-	debugdir 'src/%{prj.name}/Assets'
-	javadirs { 'src/%{prj.name}/Java' }
+	base_project( name )
 	kind 'WindowedApp'
+
+	debugdir 'src/%{prj.name}/Assets'
 	links( libraries )
 	links( third_party_libraries )
-	location 'build/%{_ACTION}'
-	resdirs { 'src/%{prj.name}/Resources' }
-	sysincludedirs { 'include' }
 	xcodebuildresources 'src/%{prj.name}/Assets'
-
-	files {
-		'src/%{prj.name}/**.cpp',
-		'src/%{prj.name}/**.h',
-	}
 
 	filter 'system:linux'
 		linkoptions { '-Wl,-rpath=\\$$ORIGIN' }
@@ -33,10 +23,11 @@ function app( name )
 	filter 'system:ios'
 		files { 'src/%{prj.name}/Resources/Info.plist', 'src/%{prj.name}/Assets' }
 
-	filter { 'system:macosx or ios', 'files:**.cpp' }
-		compileas 'Objective-C++'
-
 	filter { }
 
 	table.insert( apps, name )
+	
+	-- Set the last declared app as startup
+	p.api.scope.current = p.api.scope.workspace
+	startproject( name )
 end
